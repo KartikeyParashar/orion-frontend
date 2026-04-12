@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ORION Frontend
 
-## Getting Started
+Welcome to the frontend of **ORION** (Ordering, Replenishment, and Inventory Optimization Network). This is a modern, high-performance web application built with [Next.js](https://nextjs.org), [Tailwind CSS](https://tailwindcss.com), and [shadcn/ui](https://ui.shadcn.com).
 
-First, run the development server:
+## 🚀 Getting Started
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+First, ensure you have Node.js and npm installed.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. **Run the Development Server:**
+   ```bash
+   npm run dev
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. **Open the Application:**
+   Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## 🛠 Features
 
-To learn more about Next.js, take a look at the following resources:
+- **Responsive Design**: Optimized for all screen sizes.
+- **Dark/Light Mode**: Full theme support using `next-themes`.
+- **Granular Access Control**: Integrated modules for Dashboard, Forecasting, and Inventory.
+- **Modern UI**: Leveraging `shadcn/ui` for high-quality components.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📦 Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `src/app`: Next.js App Router for pages and routing.
+- `src/components`: Reusable UI components.
+- `public`: Static assets (images, icons, fonts).
 
-## Deploy on Vercel
+## 📄 Learn More
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+To learn more about the technologies used in this project:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [shadcn/ui Documentation](https://ui.shadcn.com/docs)
