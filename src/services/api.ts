@@ -16,6 +16,16 @@ export interface Sale {
 }
 
 export const salesService = {
+  getDashboardMetrics: async (params?: Record<string, string>) => {
+    const url = new URL(`${API_BASE_URL}/sales/dashboard_metrics/`);
+    if (params) {
+      Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+    }
+    const response = await fetch(url.toString());
+    if (!response.ok) throw new Error('Network response was not ok');
+    return await response.json();
+  },
+
   getSales: async (params?: Record<string, string>) => {
     const url = new URL(`${API_BASE_URL}/sales/`);
     if (params) {
@@ -28,12 +38,17 @@ export const salesService = {
     return data.results || data;
   },
   
+  getFilters: async () => {
+    const response = await fetch(`${API_BASE_URL}/sales/filters/`);
+    if (!response.ok) throw new Error('Network response was not ok');
+    return await response.json();
+  },
+  
   getUniqueValues: async (field: string) => {
-    const response = await fetch(`${API_BASE_URL}/sales/`);
+    // Kept for backward compatibility, but we recommend using getFilters
+    const response = await fetch(`${API_BASE_URL}/sales/filters/`);
     if (!response.ok) throw new Error('Network response was not ok');
     const data = await response.json();
-    const items = data.results || data; 
-    const values = items.map((item: any) => item[field]);
-    return Array.from(new Set(values)) as string[];
+    return data[field + 's'] || [];
   }
 };

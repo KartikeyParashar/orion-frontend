@@ -26,9 +26,9 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { DatePickerWithRange } from "@/components/date-picker"
-import { cn } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
+import { cn, formatCompactNumber } from "@/lib/utils"
 import { salesService, Sale } from "@/services/api"
 
 function MetricCard({ 
@@ -124,7 +124,7 @@ function InsightCard({
 
 export default function DashboardPage() {
   const [mounted, setMounted] = React.useState(false)
-  const [sales, setSales] = React.useState<Sale[]>([])
+  const [metrics, setMetrics] = React.useState<any>(null)
   const [loading, setLoading] = React.useState(true)
   const [filters, setFilters] = React.useState({
     category: '',
@@ -146,12 +146,12 @@ export default function DashboardPage() {
   }, [])
 
   React.useEffect(() => {
-    if (!loading && sales.length > 0) {
+    if (!loading && metrics) {
       const timer = setTimeout(() => setChartReady(true), 150)
       return () => clearTimeout(timer)
     }
     setChartReady(false)
-  }, [loading, sales])
+  }, [loading, metrics])
 
   const fetchData = async (currentFilters = filters) => {
     try {
@@ -161,10 +161,10 @@ export default function DashboardPage() {
       if (currentFilters.store) params.store = currentFilters.store
       if (currentFilters.season) params.season = currentFilters.season
       
-      const data = await salesService.getSales(params)
-      setSales(data)
+      const metricsData = await salesService.getDashboardMetrics(params)
+      setMetrics(metricsData)
     } catch (error) {
-      console.error("Failed to fetch sales:", error)
+      console.error("Failed to fetch dashboard metrics:", error)
     } finally {
       setLoading(false)
     }
@@ -172,12 +172,12 @@ export default function DashboardPage() {
 
   const fetchFilterOptions = async () => {
     try {
-      const [categories, stores, seasons] = await Promise.all([
-        salesService.getUniqueValues('category'),
-        salesService.getUniqueValues('store'),
-        salesService.getUniqueValues('season')
-      ])
-      setFilterOptions({ categories, stores, seasons })
+      const data = await salesService.getFilters()
+      setFilterOptions({ 
+        categories: data.categories || [], 
+        stores: data.stores || [], 
+        seasons: data.seasons || [] 
+      })
     } catch (error) {
       console.error("Failed to fetch filter options:", error)
     }
@@ -191,27 +191,6 @@ export default function DashboardPage() {
   const applyFilters = () => {
     fetchData()
   }
-
-  // Calculate Metrics
-  const totalSales = sales.reduce((acc, sale) => acc + parseFloat(sale.net_sales_price), 0)
-  const totalUnits = sales.reduce((acc, sale) => acc + sale.units_sold, 0)
-  const totalMarkdown = sales.reduce((acc, sale) => acc + (parseFloat(sale.gross_selling_price) - parseFloat(sale.net_sales_price)), 0)
-  const avgUnitPrice = sales.length > 0 ? totalSales / totalUnits : 0
-  const totalStock = sales.reduce((acc, sale) => acc + sale.ending_stock, 0)
-  const sellThru = totalUnits + totalStock > 0 ? (totalUnits / (totalUnits + totalStock)) * 100 : 0
-
-  // Chart Data preparation (group by week)
-  const chartData = React.useMemo(() => {
-    const grouped: any = {}
-    sales.forEach(sale => {
-      if (!grouped[sale.week]) {
-        grouped[sale.week] = { date: sale.week, units: 0, sales: 0 }
-      }
-      grouped[sale.week].units += sale.units_sold
-      grouped[sale.week].sales += parseFloat(sale.net_sales_price)
-    })
-    return Object.values(grouped).sort((a: any, b: any) => a.date.localeCompare(b.date))
-  }, [sales])
 
   return (
     <div className="flex flex-col gap-8 max-w-[1400px] mx-auto pb-12">
@@ -276,29 +255,29 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {loading && !sales.length ? (
+      {loading && !metrics ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-pulse">
           {[1,2,3,4].map(i => <div key={i} className="h-32 bg-muted/20 rounded-2xl" />)}
         </div>
-      ) : (
+      ) : metrics ? (
         <>
           {/* Metric Cards Row 1 */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <MetricCard title="Total Sales" value={totalSales.toLocaleString(undefined, { maximumFractionDigits: 0 })} trend="+18.7%" prefix="$" />
-            <MetricCard title="Total Quantity" value={totalUnits.toLocaleString()} trend="+22.4%" suffix=" Units" />
-            <MetricCard title="Total Markdown" value={totalMarkdown.toLocaleString(undefined, { maximumFractionDigits: 0 })} trend="-6.9%" prefix="$" />
-            <MetricCard title="Sell Thru" value={sellThru.toFixed(1)} trend="+4.8%" suffix="%" />
+            <MetricCard title="Total Sales" value={formatCompactNumber(metrics.totalSales)} trend="+18.7%" prefix="$" />
+            <MetricCard title="Total Quantity" value={formatCompactNumber(metrics.totalUnits)} trend="+22.4%" suffix=" Units" />
+            <MetricCard title="Total Markdown" value={metrics.totalMarkdown.toFixed(1)} trend="-6.9%" suffix="%" />
+            <MetricCard title="Sell Thru" value={metrics.sellThru.toFixed(1)} trend="+4.8%" suffix="%" />
           </div>
 
           {/* Metric Cards Row 2 */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <MetricCard title="Total Inventory" value={totalStock.toLocaleString()} trend="-2.4%" suffix=" Units" />
-            <MetricCard title="Net Margin" value={(totalSales * 0.35).toLocaleString(undefined, { maximumFractionDigits: 0 })} trend="+12.4%" prefix="$" />
-            <MetricCard title="Total Profit" value={(totalSales * 0.28).toLocaleString(undefined, { maximumFractionDigits: 0 })} trend="+9.5%" prefix="$" />
-            <MetricCard title="Avg Unit Price" value={avgUnitPrice.toFixed(2)} trend="-2.1%" prefix="$" />
+            <MetricCard title="On Hand Inventory" value={formatCompactNumber(metrics.totalStock)} trend="-2.4%" suffix=" Units" />
+            <MetricCard title="Net Margin" value={formatCompactNumber(metrics.netMargin)} trend="+12.4%" prefix="$" />
+            <MetricCard title="Net Margin %" value={metrics.netMarginPercent.toFixed(1)} trend="+9.5%" suffix="%" />
+            <MetricCard title="Avg Unit Price" value={formatCompactNumber(metrics.avgUnitPrice)} trend="-2.1%" prefix="$" />
           </div>
         </>
-      )}
+      ) : null}
 
       {/* Detailed Analysis */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -314,10 +293,10 @@ export default function DashboardPage() {
             <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground"><MoreVertical className="w-4 h-4" /></Button>
           </CardHeader>
           <CardContent className="h-[400px] pb-8 relative w-full min-h-[400px]">
-            {mounted && chartReady && sales.length > 0 ? (
+            {mounted && chartReady && metrics ? (
               <div className="w-full h-full">
                 <ResponsiveContainer width="100%" height="100%" minHeight={400}>
-                <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <AreaChart data={metrics.chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorUnits" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.2}/>
@@ -335,6 +314,7 @@ export default function DashboardPage() {
                   <YAxis 
                     axisLine={false} 
                     tickLine={false} 
+                    tickFormatter={(value) => formatCompactNumber(value)}
                     tick={{ fontSize: 11, fontWeight: 600, opacity: 0.5 }}
                     label={{ value: "Total Quantity (Units)", angle: -90, position: "insideLeft", offset: 10, fill: "currentColor", opacity: 0.5, fontSize: 10, fontWeight: 700 }}
                     dx={-5}
@@ -381,7 +361,7 @@ export default function DashboardPage() {
             title="Out of Stock Risks"
             label="Urgent Action"
             variant="red"
-            count={Math.round(totalUnits * 0.005)}
+            count={Math.round((metrics?.totalUnits || 0) * 0.005)}
             description="items are at risk of going out of stock based on current sales velocity."
           />
           <InsightCard 
@@ -397,7 +377,7 @@ export default function DashboardPage() {
             title="Markdown Efficiency"
             label="Pricing"
             variant="yellow"
-            count={(totalMarkdown / totalSales * 100).toFixed(1) + '%'}
+            count={(metrics?.totalMarkdown || 0).toFixed(1) + '%'}
             description="average markdown rate applied across the selected products."
           />
           <InsightCard 
@@ -405,7 +385,7 @@ export default function DashboardPage() {
             title="Top Performer"
             label="Insights"
             variant="blue"
-            count={sales.length > 0 ? Array.from(new Set(sales.map(s => s.category))).length : 0}
+            count={metrics?.activeCategories || 0}
             description="active categories contributing to the overall sales performance."
           />
         </div>
