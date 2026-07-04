@@ -157,8 +157,8 @@ export default function DashboardPage() {
     try {
       setLoading(true)
       const params: any = {}
-      if (currentFilters.category) params.category = currentFilters.category
-      if (currentFilters.store) params.store = currentFilters.store
+      if (currentFilters.category) params.department = currentFilters.category
+      if (currentFilters.store) params.store_code = currentFilters.store
       if (currentFilters.season) params.season = currentFilters.season
       
       const metricsData = await salesService.getDashboardMetrics(params)
@@ -279,13 +279,13 @@ export default function DashboardPage() {
         </>
       ) : null}
 
-      {/* Detailed Analysis */}
+      {/* Monthly Sales Trend */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-2 border-border/40 bg-card/60 backdrop-blur-sm shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-4">
             <div className="flex flex-col">
               <CardTitle className="text-lg font-bold flex items-center gap-2">
-                Detailed Analysis
+                Monthly Sales Trend
                 <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20">Units Trend</Badge>
               </CardTitle>
               <CardDescription>Visual trend of quantity sold over selected period</CardDescription>
