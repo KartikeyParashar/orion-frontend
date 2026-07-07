@@ -138,6 +138,7 @@ export default function DashboardPage() {
     seasons: [] as string[]
   })
   const [chartReady, setChartReady] = React.useState(false)
+  const [chartMetric, setChartMetric] = React.useState<'units' | 'sales' | 'sell_thru'>('units')
 
   React.useEffect(() => {
     setMounted(true)
@@ -186,10 +187,7 @@ export default function DashboardPage() {
   const handleFilterChange = (key: string, value: string) => {
     const newFilters = { ...filters, [key]: value }
     setFilters(newFilters)
-  }
-
-  const applyFilters = () => {
-    fetchData()
+    fetchData(newFilters)
   }
 
   return (
@@ -245,13 +243,12 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <Button 
-            onClick={applyFilters}
-            disabled={loading}
-            className="rounded-2xl h-14 px-8 font-black text-lg shadow-xl shadow-primary/30 transition-all hover:scale-105 active:scale-95"
-          >
-            {loading ? "FETCHING..." : "APPLY FILTERS"}
-          </Button>
+          {loading && (
+            <div className="flex items-center gap-2 px-4 h-11 bg-primary/5 text-primary rounded-xl font-bold text-sm">
+              <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+              UPDATING...
+            </div>
+          )}
         </div>
       </div>
 
@@ -280,15 +277,21 @@ export default function DashboardPage() {
       ) : null}
 
       {/* Monthly Sales Trend */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2 border-border/40 bg-card/60 backdrop-blur-sm shadow-sm">
+      <div className="w-full">
+        <Card className="border-border/40 bg-card/60 backdrop-blur-sm shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-4">
-            <div className="flex flex-col">
-              <CardTitle className="text-lg font-bold flex items-center gap-2">
+            <div className="flex flex-col gap-1.5">
+              <CardTitle className="text-lg font-bold flex flex-col md:flex-row md:items-center gap-4">
                 Monthly Sales Trend
-                <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20">Units Trend</Badge>
+                <Tabs value={chartMetric} onValueChange={(val: any) => setChartMetric(val)} className="w-[260px]">
+                  <TabsList className="grid w-full grid-cols-3 h-8">
+                    <TabsTrigger value="units" className="text-xs">Units</TabsTrigger>
+                    <TabsTrigger value="sales" className="text-xs">Sales</TabsTrigger>
+                    <TabsTrigger value="sell_thru" className="text-xs">Sell Thru</TabsTrigger>
+                  </TabsList>
+                </Tabs>
               </CardTitle>
-              <CardDescription>Visual trend of quantity sold over selected period</CardDescription>
+              <CardDescription>Visual trend of {chartMetric === 'sales' ? 'sales volume' : chartMetric === 'sell_thru' ? 'cumulative sell thru' : 'quantity sold'} over selected period</CardDescription>
             </div>
             <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground"><MoreVertical className="w-4 h-4" /></Button>
           </CardHeader>
@@ -310,13 +313,17 @@ export default function DashboardPage() {
                     tickLine={false} 
                     tick={{ fontSize: 11, fontWeight: 600, opacity: 0.5 }} 
                     dy={15}
+                    interval={0}
+                    angle={-45}
+                    textAnchor="end"
+                    height={60}
                   />
                   <YAxis 
                     axisLine={false} 
                     tickLine={false} 
-                    tickFormatter={(value) => formatCompactNumber(value)}
+                    tickFormatter={(value) => chartMetric === 'sales' ? `$${formatCompactNumber(value)}` : chartMetric === 'sell_thru' ? `${value}%` : formatCompactNumber(value)}
                     tick={{ fontSize: 11, fontWeight: 600, opacity: 0.5 }}
-                    label={{ value: "Total Quantity (Units)", angle: -90, position: "insideLeft", offset: 10, fill: "currentColor", opacity: 0.5, fontSize: 10, fontWeight: 700 }}
+                    label={{ value: chartMetric === 'sales' ? "Total Sales ($)" : chartMetric === 'sell_thru' ? "Cumulative Sell Thru (%)" : "Total Quantity (Units)", angle: -90, position: "insideLeft", offset: 10, fill: "currentColor", opacity: 0.5, fontSize: 10, fontWeight: 700 }}
                     dx={-5}
                   />
                   <Tooltip 
@@ -328,10 +335,14 @@ export default function DashboardPage() {
                       boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)'
                     }} 
                     itemStyle={{ fontWeight: 'bold' }}
+                    formatter={(value: any) => [
+                      chartMetric === 'sales' ? `$${value.toLocaleString()}` : chartMetric === 'sell_thru' ? `${value}%` : value.toLocaleString(), 
+                      chartMetric === 'sales' ? 'Sales' : chartMetric === 'sell_thru' ? 'Sell Thru' : 'Units'
+                    ]}
                   />
                   <Area 
                     type="monotone" 
-                    dataKey="units" 
+                    dataKey={chartMetric} 
                     stroke="var(--primary)" 
                     strokeWidth={3}
                     fillOpacity={1} 
@@ -349,46 +360,10 @@ export default function DashboardPage() {
           <div className="px-6 py-4 border-t border-border/30 flex items-center gap-6 justify-center">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-primary" />
-              <span className="text-xs font-bold opacity-60">Total Quantity (Units)</span>
+              <span className="text-xs font-bold opacity-60">Total {chartMetric === 'sales' ? 'Sales ($)' : chartMetric === 'sell_thru' ? 'Sell Thru (%)' : 'Quantity (Units)'}</span>
             </div>
           </div>
         </Card>
-
-        {/* Insights Column */}
-        <div className="flex flex-col gap-4">
-          <InsightCard 
-            icon={AlertCircle}
-            title="Out of Stock Risks"
-            label="Urgent Action"
-            variant="red"
-            count={Math.round((metrics?.totalUnits || 0) * 0.005)}
-            description="items are at risk of going out of stock based on current sales velocity."
-          />
-          <InsightCard 
-            icon={CheckCircle2}
-            title="Operational Health"
-            label="On Track"
-            variant="green"
-            count={filterOptions.stores.length}
-            description="stores are performing consistently with balanced inventory levels."
-          />
-          <InsightCard 
-            icon={Lock}
-            title="Markdown Efficiency"
-            label="Pricing"
-            variant="yellow"
-            count={(metrics?.totalMarkdown || 0).toFixed(1) + '%'}
-            description="average markdown rate applied across the selected products."
-          />
-          <InsightCard 
-            icon={ArrowUpCircle}
-            title="Top Performer"
-            label="Insights"
-            variant="blue"
-            count={metrics?.activeCategories || 0}
-            description="active categories contributing to the overall sales performance."
-          />
-        </div>
       </div>
     </div>
   )
