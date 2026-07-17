@@ -83,7 +83,7 @@ export function StylePerformanceTable({ filters }: StylePerformanceTableProps) {
     return sortableItems
   }, [data, sortConfig])
 
-  const formatCurrency = (val: number) => `$${val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+  const formatCurrency = (val: number) => `$${val.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`
 
   const SortableHeader = ({ label, sortKey }: { label: string, sortKey: keyof StylePerformanceData }) => (
     <th 
