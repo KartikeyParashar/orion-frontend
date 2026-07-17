@@ -30,6 +30,7 @@ import { DatePickerWithRange } from "@/components/date-picker"
 import { Badge } from "@/components/ui/badge"
 import { cn, formatCompactNumber } from "@/lib/utils"
 import { salesService, Sale } from "@/services/api"
+import { StylePerformanceTable } from "@/components/style-performance-table"
 
 function MetricCard({ 
   title, 
@@ -191,7 +192,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="flex flex-col gap-8 max-w-[1400px] mx-auto pb-12">
+    <div className="flex flex-col gap-8 max-w-[1400px] mx-auto px-6 pb-12">
       {/* Filters Box */}
       <div className="bg-card/40 backdrop-blur-md rounded-3xl border border-border/40 p-6 shadow-xl">
         <div className="flex flex-wrap items-center gap-6">
@@ -295,10 +296,10 @@ export default function DashboardPage() {
             </div>
             <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground"><MoreVertical className="w-4 h-4" /></Button>
           </CardHeader>
-          <CardContent className="h-[400px] pb-8 relative w-full min-h-[400px]">
+          <CardContent className="h-[250px] pb-8 relative w-full min-h-[250px]">
             {mounted && chartReady && metrics ? (
               <div className="w-full h-full">
-                <ResponsiveContainer width="100%" height="100%" minHeight={400}>
+                <ResponsiveContainer width="100%" height="100%" minHeight={250}>
                 <AreaChart data={metrics.chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorUnits" x1="0" y1="0" x2="0" y2="1">
@@ -365,6 +366,9 @@ export default function DashboardPage() {
           </div>
         </Card>
       </div>
+      
+      {/* Style Performance Table */}
+      <StylePerformanceTable filters={filters} />
     </div>
   )
 }

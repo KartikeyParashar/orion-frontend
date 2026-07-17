@@ -26,6 +26,16 @@ export const salesService = {
     return await response.json();
   },
 
+  getStylePerformance: async (params?: Record<string, string>) => {
+    const url = new URL(`${API_BASE_URL}/sales/style_performance/`);
+    if (params) {
+      Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+    }
+    const response = await fetch(url.toString());
+    if (!response.ok) throw new Error('Network response was not ok');
+    return await response.json();
+  },
+
   getSales: async (params?: Record<string, string>) => {
     const url = new URL(`${API_BASE_URL}/sales/`);
     if (params) {
