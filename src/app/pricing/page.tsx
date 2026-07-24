@@ -67,7 +67,7 @@ export default function PricingPage() {
                     <div className="flex items-center gap-6">
                       <div className="text-right">
                         <p className="text-[10px] font-black opacity-50 uppercase">Net Price</p>
-                        <p className="font-black text-xl text-emerald-500">${promo.net_sales_price}</p>
+                        <p className="font-black text-xl text-emerald-500">₹{promo.net_sales_price}</p>
                       </div>
                       <div className="h-10 w-[1px] bg-border" />
                       <div className="p-3 bg-rose-500/10 text-rose-500 rounded-2xl font-black text-lg">

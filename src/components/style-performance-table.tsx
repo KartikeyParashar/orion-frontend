@@ -83,7 +83,7 @@ export function StylePerformanceTable({ filters }: StylePerformanceTableProps) {
     return sortableItems
   }, [data, sortConfig])
 
-  const formatCurrency = (val: number) => `$${val.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`
+  const formatCurrency = (val: number) => `₹${val.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`
 
   const SortableHeader = ({ label, sortKey }: { label: string, sortKey: keyof StylePerformanceData }) => (
     <th 
@@ -135,7 +135,7 @@ export function StylePerformanceTable({ filters }: StylePerformanceTableProps) {
                 <SortableHeader label="ROS (Wks)" sortKey="ros_weeks" />
                 <SortableHeader label="Net Rev" sortKey="net_revenue" />
                 <SortableHeader label="Gross Rev" sortKey="gross_revenue" />
-                <SortableHeader label="Markdown ($)" sortKey="markdown_dollar" />
+                <SortableHeader label="Markdown (₹)" sortKey="markdown_dollar" />
                 <SortableHeader label="Markdown (%)" sortKey="markdown_pct" />
                 <SortableHeader label="ASP" sortKey="asp" />
                 <SortableHeader label="Weeks Since Last Sale" sortKey="weeks_since_last_sale" />
@@ -148,17 +148,18 @@ export function StylePerformanceTable({ filters }: StylePerformanceTableProps) {
                   <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{row.launch_date || "N/A"}</td>
                   <td className="px-4 py-3 font-medium">{row.total_stores}</td>
                   <td className="px-4 py-3 font-medium">{row.total_sales.toLocaleString()}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{row.total_buy_qty.toLocaleString()}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{row.total_buy_qty !== null ? row.total_buy_qty.toLocaleString() : "-"}</td>
                   <td className="px-4 py-3 font-medium">
                     <span className={cn("px-2 py-0.5 rounded-full text-xs font-bold", 
+                      row.sell_thru_pct === null ? "bg-muted text-muted-foreground" :
                       row.sell_thru_pct > 70 ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : 
                       row.sell_thru_pct > 40 ? "bg-amber-500/10 text-amber-600 dark:text-amber-400" : 
                       "bg-rose-500/10 text-rose-600 dark:text-rose-400"
                     )}>
-                      {row.sell_thru_pct.toFixed(1)}%
+                      {row.sell_thru_pct !== null ? `${row.sell_thru_pct.toFixed(1)}%` : "-"}
                     </span>
                   </td>
-                  <td className="px-4 py-3 font-medium text-muted-foreground">{row.sell_thru_per_week.toFixed(2)}%</td>
+                  <td className="px-4 py-3 font-medium text-muted-foreground">{row.sell_thru_per_week !== null ? `${row.sell_thru_per_week.toFixed(2)}%` : "-"}</td>
                   <td className="px-4 py-3 font-medium text-muted-foreground">{row.weeks_since_launch.toFixed(1)}</td>
                   <td className="px-4 py-3 font-medium">{row.ros_weeks.toFixed(1)}</td>
                   <td className="px-4 py-3 font-medium text-emerald-600 dark:text-emerald-400">{formatCurrency(row.net_revenue)}</td>

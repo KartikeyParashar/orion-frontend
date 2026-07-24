@@ -3,7 +3,7 @@
 import * as React from "react"
 import { 
   TrendingDown, 
-  DollarSign, 
+  IndianRupee, 
   Hash, 
   Percent, 
   TrendingUpIcon,
@@ -52,7 +52,7 @@ function MetricCard({
         <CardTitle className="text-sm font-medium text-muted-foreground flex items-center justify-between">
           {title}
           <div className="p-1 h-6 w-6 rounded-md bg-muted/50 border border-border/20 flex items-center justify-center">
-            {prefix === "$" ? <DollarSign className="w-3 h-3" /> : suffix === "%" ? <Percent className="w-3 h-3" /> : <Hash className="w-3 h-3" />}
+            {prefix === "₹" ? <IndianRupee className="w-3 h-3" /> : suffix === "%" ? <Percent className="w-3 h-3" /> : <Hash className="w-3 h-3" />}
           </div>
         </CardTitle>
       </CardHeader>
@@ -202,7 +202,13 @@ export default function DashboardPage() {
             </div>
             <div>
               <h2 className="text-lg font-bold">Real-time Filters</h2>
-              <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">Global Dashboard Controls</p>
+              <div className="flex items-center gap-2">
+                <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">Global Dashboard Controls</p>
+                <span className="text-[10px] text-muted-foreground">•</span>
+                <p className="text-[10px] text-primary uppercase font-bold tracking-widest bg-primary/10 px-2 py-0.5 rounded-full">
+                  As on: {mounted ? new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }) : '...'}
+                </p>
+              </div>
             </div>
           </div>
           
@@ -261,18 +267,18 @@ export default function DashboardPage() {
         <>
           {/* Metric Cards Row 1 */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <MetricCard title="Total Sales" value={formatCompactNumber(metrics.totalSales)} trend="+18.7%" prefix="$" />
+            <MetricCard title="Total Sales" value={formatCompactNumber(metrics.totalSales)} trend="+18.7%" prefix="₹" />
             <MetricCard title="Total Quantity" value={formatCompactNumber(metrics.totalUnits)} trend="+22.4%" suffix=" Units" />
-            <MetricCard title="Total Markdown" value={metrics.totalMarkdown.toFixed(1)} trend="-6.9%" suffix="%" />
-            <MetricCard title="Sell Thru" value={metrics.sellThru.toFixed(1)} trend="+4.8%" suffix="%" />
+            <MetricCard title="Total Markdown" value={metrics.totalMarkdown !== null ? metrics.totalMarkdown.toFixed(1) : "-"} trend="-6.9%" suffix="%" />
+            <MetricCard title="Sell Thru" value={metrics.sellThru !== null ? metrics.sellThru.toFixed(1) : "-"} trend="+4.8%" suffix="%" />
           </div>
 
           {/* Metric Cards Row 2 */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <MetricCard title="On Hand Inventory" value={formatCompactNumber(metrics.totalStock)} trend="-2.4%" suffix=" Units" />
-            <MetricCard title="Net Margin" value={formatCompactNumber(metrics.netMargin)} trend="+12.4%" prefix="$" />
+            <MetricCard title="On Hand Inventory" value={metrics.totalStock !== null ? formatCompactNumber(metrics.totalStock) : "-"} trend="-2.4%" suffix={metrics.totalStock !== null ? " Units" : ""} />
+            <MetricCard title="Net Margin" value={formatCompactNumber(metrics.netMargin)} trend="+12.4%" prefix="₹" />
             <MetricCard title="Net Margin %" value={metrics.netMarginPercent.toFixed(1)} trend="+9.5%" suffix="%" />
-            <MetricCard title="Avg Unit Price" value={formatCompactNumber(metrics.avgUnitPrice)} trend="-2.1%" prefix="$" />
+            <MetricCard title="Avg Unit Price" value={formatCompactNumber(metrics.avgUnitPrice)} trend="-2.1%" prefix="₹" />
           </div>
         </>
       ) : null}
@@ -322,9 +328,9 @@ export default function DashboardPage() {
                   <YAxis 
                     axisLine={false} 
                     tickLine={false} 
-                    tickFormatter={(value) => chartMetric === 'sales' ? `$${formatCompactNumber(value)}` : chartMetric === 'sell_thru' ? `${value}%` : formatCompactNumber(value)}
+                    tickFormatter={(value) => chartMetric === 'sales' ? `₹${formatCompactNumber(value)}` : chartMetric === 'sell_thru' ? `${value}%` : formatCompactNumber(value)}
                     tick={{ fontSize: 11, fontWeight: 600, opacity: 0.5 }}
-                    label={{ value: chartMetric === 'sales' ? "Total Sales ($)" : chartMetric === 'sell_thru' ? "Cumulative Sell Thru (%)" : "Total Quantity (Units)", angle: -90, position: "insideLeft", offset: 10, fill: "currentColor", opacity: 0.5, fontSize: 10, fontWeight: 700 }}
+                    label={{ value: chartMetric === 'sales' ? "Total Sales (₹)" : chartMetric === 'sell_thru' ? "Cumulative Sell Thru (%)" : "Total Quantity (Units)", angle: -90, position: "insideLeft", offset: 10, fill: "currentColor", opacity: 0.5, fontSize: 10, fontWeight: 700 }}
                     dx={-5}
                   />
                   <Tooltip 
@@ -337,7 +343,7 @@ export default function DashboardPage() {
                     }} 
                     itemStyle={{ fontWeight: 'bold' }}
                     formatter={(value: any) => [
-                      chartMetric === 'sales' ? `$${value.toLocaleString()}` : chartMetric === 'sell_thru' ? `${value}%` : value.toLocaleString(), 
+                      chartMetric === 'sales' ? `₹${value.toLocaleString()}` : chartMetric === 'sell_thru' ? `${value}%` : value.toLocaleString(), 
                       chartMetric === 'sales' ? 'Sales' : chartMetric === 'sell_thru' ? 'Sell Thru' : 'Units'
                     ]}
                   />
@@ -361,7 +367,7 @@ export default function DashboardPage() {
           <div className="px-6 py-4 border-t border-border/30 flex items-center gap-6 justify-center">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-primary" />
-              <span className="text-xs font-bold opacity-60">Total {chartMetric === 'sales' ? 'Sales ($)' : chartMetric === 'sell_thru' ? 'Sell Thru (%)' : 'Quantity (Units)'}</span>
+              <span className="text-xs font-bold opacity-60">Total {chartMetric === 'sales' ? 'Sales (₹)' : chartMetric === 'sell_thru' ? 'Sell Thru (%)' : 'Quantity (Units)'}</span>
             </div>
           </div>
         </Card>
