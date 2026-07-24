@@ -21,7 +21,8 @@ import {
   YAxis,
   CartesianGrid,
   Area,
-  AreaChart
+  Line,
+  ComposedChart
 } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -289,16 +290,9 @@ export default function DashboardPage() {
           <CardHeader className="flex flex-row items-center justify-between pb-4">
             <div className="flex flex-col gap-1.5">
               <CardTitle className="text-lg font-bold flex flex-col md:flex-row md:items-center gap-4">
-                Monthly Sales Trend
-                <Tabs value={chartMetric} onValueChange={(val: any) => setChartMetric(val)} className="w-[260px]">
-                  <TabsList className="grid w-full grid-cols-3 h-8">
-                    <TabsTrigger value="units" className="text-xs">Units</TabsTrigger>
-                    <TabsTrigger value="sales" className="text-xs">Sales</TabsTrigger>
-                    <TabsTrigger value="sell_thru" className="text-xs">Sell Thru</TabsTrigger>
-                  </TabsList>
-                </Tabs>
+                Monthly Trend (Units & Sell Thru)
               </CardTitle>
-              <CardDescription>Visual trend of {chartMetric === 'sales' ? 'sales volume' : chartMetric === 'sell_thru' ? 'cumulative sell thru' : 'quantity sold'} over selected period</CardDescription>
+              <CardDescription>Visual trend of cumulative sell thru and quantity sold over selected period</CardDescription>
             </div>
             <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground"><MoreVertical className="w-4 h-4" /></Button>
           </CardHeader>
@@ -306,7 +300,7 @@ export default function DashboardPage() {
             {mounted && chartReady && metrics ? (
               <div className="w-full h-full">
                 <ResponsiveContainer width="100%" height="100%" minHeight={250}>
-                <AreaChart data={metrics.chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <ComposedChart data={metrics.chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorUnits" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.2}/>
@@ -326,12 +320,23 @@ export default function DashboardPage() {
                     height={60}
                   />
                   <YAxis 
+                    yAxisId="left"
                     axisLine={false} 
                     tickLine={false} 
-                    tickFormatter={(value) => chartMetric === 'sales' ? `₹${formatCompactNumber(value)}` : chartMetric === 'sell_thru' ? `${value}%` : formatCompactNumber(value)}
+                    tickFormatter={(value) => formatCompactNumber(value)}
                     tick={{ fontSize: 11, fontWeight: 600, opacity: 0.5 }}
-                    label={{ value: chartMetric === 'sales' ? "Total Sales (₹)" : chartMetric === 'sell_thru' ? "Cumulative Sell Thru (%)" : "Total Quantity (Units)", angle: -90, position: "insideLeft", offset: 10, fill: "currentColor", opacity: 0.5, fontSize: 10, fontWeight: 700 }}
+                    label={{ value: "Total Quantity (Units)", angle: -90, position: "insideLeft", offset: 10, fill: "currentColor", opacity: 0.5, fontSize: 10, fontWeight: 700 }}
                     dx={-5}
+                  />
+                  <YAxis 
+                    yAxisId="right"
+                    orientation="right"
+                    axisLine={false} 
+                    tickLine={false} 
+                    tickFormatter={(value) => `${value}%`}
+                    tick={{ fontSize: 11, fontWeight: 600, opacity: 0.5 }}
+                    label={{ value: "Cumulative Sell Thru (%)", angle: 90, position: "insideRight", offset: -5, fill: "currentColor", opacity: 0.5, fontSize: 10, fontWeight: 700 }}
+                    dx={5}
                   />
                   <Tooltip 
                     contentStyle={{ 
@@ -342,14 +347,15 @@ export default function DashboardPage() {
                       boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)'
                     }} 
                     itemStyle={{ fontWeight: 'bold' }}
-                    formatter={(value: any) => [
-                      chartMetric === 'sales' ? `₹${value.toLocaleString()}` : chartMetric === 'sell_thru' ? `${value}%` : value.toLocaleString(), 
-                      chartMetric === 'sales' ? 'Sales' : chartMetric === 'sell_thru' ? 'Sell Thru' : 'Units'
+                    formatter={(value: any, name: string) => [
+                      name === 'units' ? value.toLocaleString() : `${Number(value).toFixed(1)}%`,
+                      name === 'units' ? 'Units' : 'Sell Thru'
                     ]}
                   />
                   <Area 
+                    yAxisId="left"
                     type="monotone" 
-                    dataKey={chartMetric} 
+                    dataKey="units" 
                     stroke="var(--primary)" 
                     strokeWidth={3}
                     fillOpacity={1} 
@@ -357,7 +363,18 @@ export default function DashboardPage() {
                     animationBegin={200}
                     animationDuration={1500}
                   />
-                </AreaChart>
+                  <Line 
+                    yAxisId="right"
+                    type="monotone" 
+                    dataKey="sell_thru" 
+                    stroke="#10b981" 
+                    strokeWidth={3}
+                    dot={{ r: 4, fill: '#10b981', strokeWidth: 2 }}
+                    activeDot={{ r: 6 }}
+                    animationBegin={200}
+                    animationDuration={1500}
+                  />
+                </ComposedChart>
               </ResponsiveContainer>
             </div>
             ) : (
@@ -365,9 +382,15 @@ export default function DashboardPage() {
             )}
           </CardContent>
           <div className="px-6 py-4 border-t border-border/30 flex items-center gap-6 justify-center">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-primary" />
-              <span className="text-xs font-bold opacity-60">Total {chartMetric === 'sales' ? 'Sales (₹)' : chartMetric === 'sell_thru' ? 'Sell Thru (%)' : 'Quantity (Units)'}</span>
+            <div className="flex items-center gap-6">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-primary" />
+                <span className="text-xs font-bold opacity-60">Total Quantity (Units)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-[#10b981]" />
+                <span className="text-xs font-bold opacity-60">Cumulative Sell Thru (%)</span>
+              </div>
             </div>
           </div>
         </Card>
