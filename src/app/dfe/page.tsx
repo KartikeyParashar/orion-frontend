@@ -97,8 +97,8 @@ export default function DFEPage() {
                       boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)'
                     }} 
                   />
-                  <Line type="monotone" dataKey="actual" stroke="var(--primary)" strokeWidth={3} dot={{ r: 4, fill: "var(--primary)" }} />
-                  <Line type="monotone" dataKey="forecast" stroke="#10b981" strokeWidth={2} strokeDasharray="5 5" dot={false} />
+                  <Line type="monotone" dataKey="actual" stroke="#197BBD" strokeWidth={3} dot={{ r: 4, fill: "#197BBD" }} />
+                  <Line type="monotone" dataKey="forecast" stroke="#05B384" strokeWidth={2} strokeDasharray="5 5" dot={false} />
                 </LineChart>
               </ResponsiveContainer>
             </div>

@@ -197,7 +197,7 @@ export default function StoreDnaPage() {
                   />
                   <Bar 
                     dataKey="value" 
-                    fill="hsl(var(--primary))" 
+                    fill="#137294" 
                     radius={[6, 6, 0, 0]} 
                     animationDuration={1500}
                   />

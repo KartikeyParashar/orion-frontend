@@ -327,8 +327,8 @@ export default function DashboardPage() {
                 <ComposedChart data={metrics.chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorUnits" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.2}/>
-                      <stop offset="95%" stopColor="var(--primary)" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="#197BBD" stopOpacity={0.2}/>
+                      <stop offset="95%" stopColor="#197BBD" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(0,0,0,0.05)" />
@@ -380,7 +380,7 @@ export default function DashboardPage() {
                     yAxisId="left"
                     type="monotone" 
                     dataKey="units" 
-                    stroke="var(--primary)" 
+                    stroke="#197BBD" 
                     strokeWidth={3}
                     fillOpacity={1} 
                     fill="url(#colorUnits)" 
@@ -391,9 +391,9 @@ export default function DashboardPage() {
                     yAxisId="right"
                     type="monotone" 
                     dataKey="sell_thru" 
-                    stroke="#10b981" 
+                    stroke="#05B384" 
                     strokeWidth={3}
-                    dot={{ r: 4, fill: '#10b981', strokeWidth: 2 }}
+                    dot={{ r: 4, fill: '#05B384', strokeWidth: 2 }}
                     activeDot={{ r: 6 }}
                     animationBegin={200}
                     animationDuration={1500}
@@ -408,11 +408,11 @@ export default function DashboardPage() {
           <div className="px-6 py-4 border-t border-border/30 flex items-center gap-6 justify-center">
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-primary" />
+                <div className="w-3 h-3 rounded-full bg-[#197BBD]" />
                 <span className="text-xs font-bold opacity-60">Total Quantity (Units)</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#10b981]" />
+                <div className="w-3 h-3 rounded-full bg-[#05B384]" />
                 <span className="text-xs font-bold opacity-60">Cumulative Sell Thru (%)</span>
               </div>
             </div>
