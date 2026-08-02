@@ -12,7 +12,8 @@ import {
   Lock,
   ArrowUpCircle,
   MoreVertical,
-  Filter
+  Filter,
+  RefreshCw
 } from "lucide-react"
 import { 
   ResponsiveContainer, 
@@ -128,6 +129,7 @@ export default function DashboardPage() {
   const [mounted, setMounted] = React.useState(false)
   const [metrics, setMetrics] = React.useState<any>(null)
   const [loading, setLoading] = React.useState(true)
+  const [isSyncing, setIsSyncing] = React.useState(false)
   const [filters, setFilters] = React.useState({
     category: '',
     store: '',
@@ -172,6 +174,19 @@ export default function DashboardPage() {
       setLoading(false)
     }
   }
+
+  const handleRefresh = async () => {
+    try {
+      setIsSyncing(true)
+      await salesService.syncData()
+    } catch (error) {
+      console.error("Failed to sync data from Excel:", error)
+    } finally {
+      setIsSyncing(false)
+      fetchData();
+      fetchFilterOptions();
+    }
+  };
 
   const fetchFilterOptions = async () => {
     try {
@@ -251,12 +266,21 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {loading && (
-            <div className="flex items-center gap-2 px-4 h-11 bg-primary/5 text-primary rounded-xl font-bold text-sm">
+          <Button 
+            onClick={handleRefresh} 
+            disabled={loading || isSyncing}
+            variant="outline"
+            className="h-11 px-4 rounded-xl border-primary/20 hover:bg-primary/5 flex items-center gap-2 cursor-pointer ml-auto"
+          >
+            {loading || isSyncing ? (
               <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-              UPDATING...
-            </div>
-          )}
+            ) : (
+              <RefreshCw className="w-4 h-4 text-primary" />
+            )}
+            <span className="font-bold text-sm text-primary">
+              {isSyncing ? "SYNCING EXCEL (2-3 MINS)..." : loading ? "UPDATING..." : "REFRESH"}
+            </span>
+          </Button>
         </div>
       </div>
 

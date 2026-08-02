@@ -1,108 +1,316 @@
 "use client"
 
 import * as React from "react"
-import { Box, Search, Package, AlertTriangle } from "lucide-react"
-import { salesService, Sale } from "@/services/api"
+import { Package, Download, AlertTriangle, ArrowUpDown, ChevronUp, ChevronDown, Clock, RefreshCw } from "lucide-react"
+import { salesService } from "@/services/api"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+
+interface InventoryNeed {
+  store_code: string;
+  item_code: string;
+  group: string;
+  department: string;
+  current_stock: number;
+  weekly_ros: number;
+  weekly_ros_8w: number;
+  weekly_ros_12w: number;
+  demand_2_weeks: number;
+  need: number;
+  weeks_since_launch: number;
+  sell_thru: number;
+}
 
 export default function InventoryPage() {
-  const [items, setItems] = React.useState<Sale[]>([])
+  const [items, setItems] = React.useState<InventoryNeed[]>([])
   const [loading, setLoading] = React.useState(true)
+  const [isSyncing, setIsSyncing] = React.useState(false)
+  const [sortConfig, setSortConfig] = React.useState<{key: keyof InventoryNeed, direction: 'asc'|'desc'} | null>(null)
 
   React.useEffect(() => {
-    fetchStock()
+    fetchNeeds()
   }, [])
 
-  const fetchStock = async () => {
+  const fetchNeeds = async () => {
     try {
       setLoading(true)
-      const data = await salesService.getSales()
+      const data = await salesService.getInventoryNeeds()
       setItems(data)
     } catch (error) {
-      console.error("Failed to fetch stock:", error)
+      console.error("Failed to fetch inventory needs:", error)
     } finally {
       setLoading(false)
     }
   }
 
-  const lowStockItems = items.filter(item => item.ending_stock < 50)
+  const handleRefresh = async () => {
+    try {
+      setIsSyncing(true)
+      await salesService.syncData()
+    } catch (error) {
+      console.error("Failed to sync data from Excel:", error)
+    } finally {
+      setIsSyncing(false)
+      fetchNeeds()
+    }
+  }
+
+  const handleSort = (key: keyof InventoryNeed) => {
+    let direction: 'asc' | 'desc' = 'asc';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  }
+
+  const sortedItems = React.useMemo(() => {
+    let sortableItems = [...items];
+    if (sortConfig !== null) {
+      sortableItems.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === 'asc' ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === 'asc' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    return sortableItems;
+  }, [items, sortConfig]);
+
+  const downloadCSV = () => {
+    if (items.length === 0) return;
+    
+    const headers = [
+      "Store Code", 
+      "Item Code", 
+      "Department", 
+      "Current Stock", 
+      "Sell Thru %",
+      "4-Week ROS", 
+      "8-Week ROS", 
+      "12-Week ROS", 
+      "Weeks Since Launch",
+      "2-Week Demand", 
+      "Need"
+    ];
+    
+    const rows = sortedItems.map(item => [
+      item.store_code,
+      item.item_code,
+      item.department,
+      item.current_stock,
+      item.sell_thru,
+      item.weekly_ros,
+      item.weekly_ros_8w,
+      item.weekly_ros_12w,
+      item.weeks_since_launch,
+      item.demand_2_weeks,
+      item.need
+    ]);
+    
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(e => e.join(","))
+    ].join("\n");
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Inventory_Needs_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  const SortIcon = ({ columnKey }: { columnKey: keyof InventoryNeed }) => {
+    if (sortConfig?.key !== columnKey) return <ArrowUpDown className="w-3 h-3 ml-1 opacity-40 group-hover:opacity-100 transition-opacity" />;
+    return sortConfig.direction === 'asc' 
+      ? <ChevronUp className="w-3 h-3 ml-1 text-primary" />
+      : <ChevronDown className="w-3 h-3 ml-1 text-primary" />;
+  }
+
+  const totalNeedUnits = items.reduce((sum, i) => sum + i.need, 0);
 
   return (
-    <div className="flex flex-col gap-8 max-w-[1200px] mx-auto pb-12">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-8 max-w-[1600px] mx-auto pb-12">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border-2 border-primary/20 shadow-inner">
             <Package className="w-8 h-8" />
           </div>
           <div>
-            <h1 className="text-3xl font-extrabold tracking-tight">Stock Monitoring</h1>
-            <p className="text-sm text-muted-foreground font-medium">Real-time inventory levels across all items</p>
+            <h1 className="text-3xl font-extrabold tracking-tight">Demand Forecasting & Replenishment</h1>
+            <p className="text-sm text-muted-foreground font-medium mt-1">
+              Calculate ROS and 2-week inventory needs across all stores.
+            </p>
           </div>
         </div>
         
-        <div className="flex gap-4">
+        <div className="flex items-center gap-4">
            <Card className="border-rose-500/20 bg-rose-500/5">
-             <CardContent className="p-4 flex items-center gap-3">
-               <div className="p-2 rounded-lg bg-rose-500/10 text-rose-500">
-                 <AlertTriangle className="w-4 h-4" />
+             <CardContent className="p-4 flex items-center gap-4">
+               <div className="p-2.5 rounded-xl bg-rose-500/10 text-rose-500">
+                 <AlertTriangle className="w-5 h-5" />
                </div>
                <div>
-                 <p className="text-[10px] uppercase font-bold text-rose-500/70">Critical Stock</p>
-                 <p className="text-xl font-black">{lowStockItems.length} <span className="text-xs font-bold opacity-60">SKUs</span></p>
+                 <p className="text-[10px] uppercase font-bold text-rose-500/70 tracking-wider">Total Needs</p>
+                 <p className="text-xl font-black">
+                   {Math.round(totalNeedUnits).toLocaleString()} <span className="text-xs font-bold opacity-60">UNITS</span>
+                 </p>
                </div>
              </CardContent>
            </Card>
+
+           <Button 
+            onClick={handleRefresh} 
+            disabled={loading || isSyncing}
+            variant="outline"
+            className="h-[72px] px-6 rounded-2xl border-primary/20 hover:bg-primary/5 shadow-sm transition-all flex items-center gap-3 cursor-pointer"
+           >
+             <RefreshCw className={`w-5 h-5 ${isSyncing || loading ? 'animate-spin' : ''}`} />
+             <div className="flex flex-col items-start">
+               <span className="font-bold text-sm">{isSyncing ? "Syncing..." : "Refresh"}</span>
+               <span className="text-[10px] opacity-80 uppercase tracking-widest">{isSyncing ? "2-3 mins wait" : "Latest Data"}</span>
+             </div>
+           </Button>
+           
+           <Button 
+            onClick={downloadCSV} 
+            disabled={items.length === 0 || loading}
+            className="h-[72px] px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg hover:shadow-emerald-600/25 transition-all flex items-center gap-3 cursor-pointer"
+           >
+             <Download className="w-5 h-5" />
+             <div className="flex flex-col items-start">
+               <span className="font-bold text-sm">Export to Excel</span>
+               <span className="text-[10px] opacity-80 uppercase tracking-widest">CSV format</span>
+             </div>
+           </Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {loading ? (
-          [1,2,3,4,5,6].map(i => <div key={i} className="h-40 bg-muted/20 animate-pulse rounded-3xl" />)
-        ) : (
-          items.map((item, idx) => (
-            <Card key={idx} className="group overflow-hidden border-border/40 hover:border-primary/20 hover:shadow-xl transition-all duration-300 rounded-3xl">
-              <CardContent className="p-6 flex flex-col gap-4">
-                <div className="flex justify-between items-start">
-                  <div className="flex flex-col gap-1">
-                    <Badge variant="secondary" className="w-fit text-[10px] font-black tracking-wider uppercase bg-primary/5 text-primary border-primary/20">
-                      {item.category}
-                    </Badge>
-                    <h3 className="text-lg font-bold group-hover:text-primary transition-colors">{item.item}</h3>
-                    <p className="text-xs text-muted-foreground font-bold opacity-70 flex items-center gap-1">
-                      <Box className="w-3 h-3" /> {item.store} • {item.season}
-                    </p>
-                  </div>
-                  <div className={cn(
-                    "p-3 rounded-2xl font-black text-xl flex flex-col items-center",
-                    item.ending_stock < 50 ? "bg-rose-500/10 text-rose-500" : "bg-emerald-500/10 text-emerald-500"
-                  )}>
-                    {item.ending_stock}
-                    <span className="text-[8px] uppercase tracking-tighter opacity-70">Stock</span>
-                  </div>
-                </div>
-                
-                <div className="flex flex-col gap-1.5 mt-2">
-                  <div className="flex justify-between text-[10px] font-bold opacity-60">
-                    <span>CAPACITY UTILIZATION</span>
-                    <span>{Math.min(100, Math.round((item.ending_stock / 1000) * 100))}%</span>
-                  </div>
-                  <div className="h-2 w-full bg-muted/50 rounded-full overflow-hidden">
-                    <div 
-                      className={cn("h-full transition-all duration-1000", item.ending_stock < 50 ? "bg-rose-500" : "bg-primary")} 
-                      style={{ width: `${Math.min(100, (item.ending_stock / 1000) * 100)}%` }} 
-                    />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))
-        )}
-      </div>
+      <Card className="rounded-3xl border-border/40 shadow-xl overflow-hidden bg-background/50 backdrop-blur-xl">
+        <div className="overflow-x-auto max-h-[800px]">
+          <table className="w-full text-sm text-left relative">
+            <thead className="text-[11px] uppercase tracking-wider bg-muted/95 text-muted-foreground font-bold border-b border-border/40 sticky top-0 z-10 backdrop-blur-md">
+              <tr>
+                <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors" onClick={() => handleSort('store_code')}>
+                  <div className="flex items-center">Store Code <SortIcon columnKey="store_code" /></div>
+                </th>
+                <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors" onClick={() => handleSort('item_code')}>
+                  <div className="flex items-center">Item Code <SortIcon columnKey="item_code" /></div>
+                </th>
+                <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors" onClick={() => handleSort('department')}>
+                  <div className="flex items-center">Department <SortIcon columnKey="department" /></div>
+                </th>
+                <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors text-right" onClick={() => handleSort('current_stock')}>
+                  <div className="flex items-center justify-end">Current Stock <SortIcon columnKey="current_stock" /></div>
+                </th>
+                <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors text-right" onClick={() => handleSort('sell_thru')}>
+                  <div className="flex items-center justify-end">Sell Thru % <SortIcon columnKey="sell_thru" /></div>
+                </th>
+                <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors text-right" onClick={() => handleSort('weekly_ros')}>
+                  <div className="flex items-center justify-end">4-Wk ROS <SortIcon columnKey="weekly_ros" /></div>
+                </th>
+                <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors text-right" onClick={() => handleSort('weekly_ros_8w')}>
+                  <div className="flex items-center justify-end">8-Wk ROS <SortIcon columnKey="weekly_ros_8w" /></div>
+                </th>
+                <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors text-right" onClick={() => handleSort('weekly_ros_12w')}>
+                  <div className="flex items-center justify-end">12-Wk ROS <SortIcon columnKey="weekly_ros_12w" /></div>
+                </th>
+                <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors text-right" onClick={() => handleSort('weeks_since_launch')}>
+                  <div className="flex items-center justify-end">Wks Since Launch <SortIcon columnKey="weeks_since_launch" /></div>
+                </th>
+                <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors text-right" onClick={() => handleSort('demand_2_weeks')}>
+                  <div className="flex items-center justify-end">2-Wk Demand <SortIcon columnKey="demand_2_weeks" /></div>
+                </th>
+                <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors text-right" onClick={() => handleSort('need')}>
+                  <div className="flex items-center justify-end">Need <SortIcon columnKey="need" /></div>
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border/40">
+              {loading ? (
+                Array.from({ length: 8 }).map((_, i) => (
+                  <tr key={i} className="animate-pulse">
+                    <td className="px-6 py-4"><div className="h-4 bg-muted/60 rounded w-20"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-muted/60 rounded w-32"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-muted/60 rounded w-24"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-muted/60 rounded w-16 ml-auto"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-muted/60 rounded w-16 ml-auto"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-muted/60 rounded w-16 ml-auto"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-muted/60 rounded w-16 ml-auto"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-muted/60 rounded w-16 ml-auto"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-muted/60 rounded w-16 ml-auto"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-muted/60 rounded w-16 ml-auto"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-muted/60 rounded w-16 ml-auto"></div></td>
+                  </tr>
+                ))
+              ) : sortedItems.length === 0 ? (
+                <tr>
+                  <td colSpan={11} className="px-6 py-12 text-center text-muted-foreground">
+                    <Package className="w-12 h-12 mx-auto mb-4 opacity-20" />
+                    <p className="font-medium">No inventory data available.</p>
+                  </td>
+                </tr>
+              ) : (
+                sortedItems.map((item, idx) => (
+                  <tr key={idx} className="hover:bg-muted/30 transition-colors">
+                    <td className="px-6 py-4 font-bold text-foreground/80">{item.store_code}</td>
+                    <td className="px-6 py-4">
+                      <div className="font-semibold">{item.item_code}</div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <Badge variant="secondary" className="text-[10px] font-bold uppercase bg-primary/5 text-primary border-primary/20">
+                        {item.department}
+                      </Badge>
+                    </td>
+                    <td className="px-6 py-4 text-right font-medium">
+                      {item.current_stock.toLocaleString()}
+                    </td>
+                    <td className="px-6 py-4 text-right font-medium opacity-90 text-blue-600">
+                      {item.sell_thru.toFixed(1)}%
+                    </td>
+                    <td className="px-6 py-4 text-right font-medium opacity-70">
+                      {item.weekly_ros.toFixed(2)}
+                    </td>
+                    <td className="px-6 py-4 text-right font-medium opacity-70">
+                      {item.weekly_ros_8w.toFixed(2)}
+                    </td>
+                    <td className="px-6 py-4 text-right font-medium opacity-70">
+                      {item.weekly_ros_12w.toFixed(2)}
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <div className="inline-flex items-center gap-1 opacity-70">
+                        <Clock className="w-3 h-3" />
+                        <span className="font-medium">{item.weeks_since_launch.toFixed(1)}</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-right font-bold text-primary">
+                      {Math.ceil(item.demand_2_weeks).toLocaleString()}
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      {item.need > 0 ? (
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-600 font-bold border border-rose-500/20">
+                          <AlertTriangle className="w-3 h-3" />
+                          {Math.ceil(item.need).toLocaleString()}
+                        </div>
+                      ) : (
+                        <span className="text-emerald-500 font-bold px-2.5 py-1 bg-emerald-500/10 rounded-full border border-emerald-500/20 inline-block">
+                          0
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </Card>
     </div>
   )
-}
-
-function cn(...inputs: any[]) {
-  return inputs.filter(Boolean).join(' ')
 }
