@@ -29,9 +29,8 @@ export default function RootLayout({
             <main className="flex-1 flex flex-col h-full bg-[#f8fafc] dark:bg-[#020617] relative">
               {/* Header */}
               <header className="h-16 border-b border-border bg-white/50 dark:bg-black/50 backdrop-blur-md px-8 flex items-center justify-between sticky top-0 z-10">
-                <div className="flex flex-col">
-                  <h1 className="text-lg font-semibold tracking-tight">ORION Network</h1>
-                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Intelligent Supply Chain</p>
+                <div>
+                  {/* Empty space where title used to be */}
                 </div>
 
                 <div className="flex items-center gap-4">

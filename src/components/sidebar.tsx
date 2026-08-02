@@ -51,12 +51,15 @@ export function Sidebar() {
       "relative h-screen bg-card border-r border-border transition-all duration-300 flex flex-col",
       collapsed ? "w-20" : "w-64"
     )}>
-      <div className="p-6 flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground">
-          <Zap className="w-5 h-5 fill-current" />
-        </div>
-        {!collapsed && (
-          <span className="font-bold text-xl tracking-tight">ORION</span>
+      <div className="p-4 flex items-center justify-center min-h-[96px]">
+        {!collapsed ? (
+          <div className="w-56 h-28 flex items-center justify-center">
+            <img src="/logo.png?v=3" alt="ORION Logo" className="w-full h-full object-contain mix-blend-multiply" />
+          </div>
+        ) : (
+          <div className="w-16 h-16 flex items-center justify-center">
+            <img src="/logo.png?v=3" alt="ORION Logo" className="w-full h-full object-contain mix-blend-multiply" />
+          </div>
         )}
       </div>
 
