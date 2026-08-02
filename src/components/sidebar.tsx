@@ -25,10 +25,10 @@ const navItems = [
     icon: LayoutDashboard,
   },
   {
-    name: "DFE",
-    description: "Demand Forecasting",
-    href: "/dfe",
-    icon: BarChart3,
+    name: "Store DNA",
+    description: "Store Insights",
+    href: "/store-dna",
+    icon: Store,
   },
   {
     name: "Inventory Tool",
@@ -42,10 +42,10 @@ const navItems = [
     icon: Tags,
   },
   {
-    name: "Store DNA",
-    description: "Store Insights",
-    href: "/store-dna",
-    icon: Store,
+    name: "DFE",
+    description: "Demand Forecasting",
+    href: "/dfe",
+    icon: BarChart3,
   }
 ]
 

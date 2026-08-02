@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import { Store, MapPin, IndianRupee, Receipt, TrendingUp, BarChart3, Activity, PieChart as PieChartIcon } from "lucide-react"
+import { Store, MapPin, IndianRupee, Receipt, TrendingUp, BarChart3, Activity, PieChart as PieChartIcon, Calendar, Percent, Star, ArrowDownToLine, Maximize } from "lucide-react"
 import { 
   BarChart, 
   Bar, 
@@ -110,10 +110,56 @@ export default function StoreDnaPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <CardHeader className="pb-2">
             <CardDescription className="font-medium flex items-center gap-2">
-              <Activity className="w-4 h-4 text-orange-500" />
-              Rate of Sale (4W)
+              <Maximize className="w-4 h-4 text-orange-500" />
+              Store Size
             </CardDescription>
-            <CardTitle className="text-3xl font-bold">{selectedStore.rateOfSale.fourWeek} <span className="text-sm font-normal text-muted-foreground">units/wk</span></CardTitle>
+            <CardTitle className="text-3xl font-bold">{selectedStore.sqFt} <span className="text-sm font-normal text-muted-foreground">sq ft</span></CardTitle>
+          </CardHeader>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card className="rounded-2xl border-none shadow-md bg-gradient-to-br from-card to-card/50 overflow-hidden relative group">
+          <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <CardHeader className="pb-2">
+            <CardDescription className="font-medium flex items-center gap-2">
+              <Star className="w-4 h-4 text-yellow-500" />
+              Store Grade
+            </CardDescription>
+            <CardTitle className="text-3xl font-bold">{selectedStore.grade}</CardTitle>
+          </CardHeader>
+        </Card>
+
+        <Card className="rounded-2xl border-none shadow-md bg-gradient-to-br from-card to-card/50 overflow-hidden relative group">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <CardHeader className="pb-2">
+            <CardDescription className="font-medium flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-blue-500" />
+              Launch Date
+            </CardDescription>
+            <CardTitle className="text-3xl font-bold">{selectedStore.launchDate}</CardTitle>
+          </CardHeader>
+        </Card>
+
+        <Card className="rounded-2xl border-none shadow-md bg-gradient-to-br from-card to-card/50 overflow-hidden relative group">
+          <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <CardHeader className="pb-2">
+            <CardDescription className="font-medium flex items-center gap-2">
+              <ArrowDownToLine className="w-4 h-4 text-red-500" />
+              Average Markdown
+            </CardDescription>
+            <CardTitle className="text-3xl font-bold">{selectedStore.avgMarkdown}</CardTitle>
+          </CardHeader>
+        </Card>
+
+        <Card className="rounded-2xl border-none shadow-md bg-gradient-to-br from-card to-card/50 overflow-hidden relative group">
+          <div className="absolute inset-0 bg-gradient-to-r from-pink-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <CardHeader className="pb-2">
+            <CardDescription className="font-medium flex items-center gap-2">
+              <Percent className="w-4 h-4 text-pink-500" />
+              Markdown Dependency
+            </CardDescription>
+            <CardTitle className="text-3xl font-bold">{selectedStore.markdownDependency}</CardTitle>
           </CardHeader>
         </Card>
       </div>
