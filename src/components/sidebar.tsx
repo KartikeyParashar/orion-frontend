@@ -12,7 +12,8 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  Zap
+  Zap,
+  Store
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -39,6 +40,12 @@ const navItems = [
     name: "Pricing & Promo",
     href: "/pricing",
     icon: Tags,
+  },
+  {
+    name: "Store DNA",
+    description: "Store Insights",
+    href: "/store-dna",
+    icon: Store,
   }
 ]
 

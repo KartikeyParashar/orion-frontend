@@ -1,0 +1,1352 @@
+[
+  {
+    "id": "STR-510",
+    "name": "Jaipur Store",
+    "address": "88 M.I. Road, Jaipur, Rajasthan 302001",
+    "grade": "A+",
+    "revenuePerSqFt": "\u20b91,732",
+    "avgBillValue": "\u20b91,004.37",
+    "sellThru": "79%",
+    "rateOfSale": {
+      "fourWeek": 127,
+      "eightWeek": 123,
+      "twelveWeek": 120
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 1003
+      },
+      {
+        "size": "M",
+        "value": 891
+      },
+      {
+        "size": "S",
+        "value": 974
+      },
+      {
+        "size": "XL",
+        "value": 567
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 1143996,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 887254,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 559444,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 821140,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-521",
+    "name": "Visakhapatnam Store",
+    "address": "19 Lawsons Bay Colony, Visakhapatnam, Andhra Pradesh 530017",
+    "grade": "A+",
+    "revenuePerSqFt": "\u20b91,739",
+    "avgBillValue": "\u20b91,006.22",
+    "sellThru": "79%",
+    "rateOfSale": {
+      "fourWeek": 128,
+      "eightWeek": 123,
+      "twelveWeek": 121
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 1033
+      },
+      {
+        "size": "M",
+        "value": 902
+      },
+      {
+        "size": "S",
+        "value": 920
+      },
+      {
+        "size": "XL",
+        "value": 584
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 1236698,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 884201,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 531804,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 771460,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-524",
+    "name": "Srinagar Store",
+    "address": "42 Residency Road, Srinagar, Jammu & Kashmir 190001",
+    "grade": "A+",
+    "revenuePerSqFt": "\u20b91,797",
+    "avgBillValue": "\u20b91,008.99",
+    "sellThru": "79%",
+    "rateOfSale": {
+      "fourWeek": 130,
+      "eightWeek": 127,
+      "twelveWeek": 124
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 1010
+      },
+      {
+        "size": "M",
+        "value": 907
+      },
+      {
+        "size": "S",
+        "value": 1010
+      },
+      {
+        "size": "XL",
+        "value": 580
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 1226509,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 964657,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 545300,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 756656,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-509",
+    "name": "Lucknow Store",
+    "address": "56 Hazratganj, Lucknow, Uttar Pradesh 226001",
+    "grade": "A+",
+    "revenuePerSqFt": "\u20b91,913",
+    "avgBillValue": "\u20b91,002.17",
+    "sellThru": "79%",
+    "rateOfSale": {
+      "fourWeek": 139,
+      "eightWeek": 134,
+      "twelveWeek": 130
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 1069
+      },
+      {
+        "size": "M",
+        "value": 933
+      },
+      {
+        "size": "S",
+        "value": 970
+      },
+      {
+        "size": "XL",
+        "value": 614
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 1250327,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 932570,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 537593,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 820168,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-505",
+    "name": "Chennai Store",
+    "address": "15 Anna Salai, Chennai, Tamil Nadu 600002",
+    "grade": "A+",
+    "revenuePerSqFt": "\u20b91,784",
+    "avgBillValue": "\u20b91,012.34",
+    "sellThru": "79%",
+    "rateOfSale": {
+      "fourWeek": 124,
+      "eightWeek": 117,
+      "twelveWeek": 113
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 923
+      },
+      {
+        "size": "M",
+        "value": 833
+      },
+      {
+        "size": "S",
+        "value": 893
+      },
+      {
+        "size": "XL",
+        "value": 624
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 1140099,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 875875,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 489510,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 746145,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-525",
+    "name": "Chandigarh Store",
+    "address": "5 Mall Road, Chandigarh 160017",
+    "grade": "A",
+    "revenuePerSqFt": "\u20b91,524",
+    "avgBillValue": "\u20b9999.24",
+    "sellThru": "71%",
+    "rateOfSale": {
+      "fourWeek": 105,
+      "eightWeek": 102,
+      "twelveWeek": 99
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 788
+      },
+      {
+        "size": "M",
+        "value": 705
+      },
+      {
+        "size": "S",
+        "value": 708
+      },
+      {
+        "size": "XL",
+        "value": 454
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 816383,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 740457,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 464881,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 619266,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-516",
+    "name": "Bhubaneswar Store",
+    "address": "67 Janpath Road, Bhubaneswar, Odisha 751001",
+    "grade": "A",
+    "revenuePerSqFt": "\u20b91,663",
+    "avgBillValue": "\u20b91,009.53",
+    "sellThru": "70%",
+    "rateOfSale": {
+      "fourWeek": 114,
+      "eightWeek": 107,
+      "twelveWeek": 104
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 802
+      },
+      {
+        "size": "M",
+        "value": 608
+      },
+      {
+        "size": "S",
+        "value": 735
+      },
+      {
+        "size": "XL",
+        "value": 549
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 899662,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 760764,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 389781,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 617987,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-520",
+    "name": "Vijayawada Store",
+    "address": "51 M.G. Road, Vijayawada, Andhra Pradesh 520001",
+    "grade": "A",
+    "revenuePerSqFt": "\u20b91,655",
+    "avgBillValue": "\u20b91,012.54",
+    "sellThru": "70%",
+    "rateOfSale": {
+      "fourWeek": 112,
+      "eightWeek": 103,
+      "twelveWeek": 98
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 830
+      },
+      {
+        "size": "M",
+        "value": 677
+      },
+      {
+        "size": "S",
+        "value": 651
+      },
+      {
+        "size": "XL",
+        "value": 456
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 885612,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 727681,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 412925,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 564873,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-515",
+    "name": "Ranchi Store",
+    "address": "11 Main Road, Ranchi, Jharkhand 834001",
+    "grade": "A",
+    "revenuePerSqFt": "\u20b91,661",
+    "avgBillValue": "\u20b9995.92",
+    "sellThru": "70%",
+    "rateOfSale": {
+      "fourWeek": 100,
+      "eightWeek": 98,
+      "twelveWeek": 96
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 756
+      },
+      {
+        "size": "M",
+        "value": 689
+      },
+      {
+        "size": "S",
+        "value": 658
+      },
+      {
+        "size": "XL",
+        "value": 486
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 900102,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 689054,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 381755,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 590586,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-507",
+    "name": "Ahmedabad Store",
+    "address": "101 C.G. Road, Ahmedabad, Gujarat 380009",
+    "grade": "A",
+    "revenuePerSqFt": "\u20b91,662",
+    "avgBillValue": "\u20b91,003.67",
+    "sellThru": "70%",
+    "rateOfSale": {
+      "fourWeek": 100,
+      "eightWeek": 96,
+      "twelveWeek": 94
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 780
+      },
+      {
+        "size": "M",
+        "value": 622
+      },
+      {
+        "size": "S",
+        "value": 737
+      },
+      {
+        "size": "XL",
+        "value": 433
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 875178,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 722749,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 394055,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 569383,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-501",
+    "name": "New Delhi Store",
+    "address": "12 Connaught Place, New Delhi, Delhi 110001",
+    "grade": "B",
+    "revenuePerSqFt": "\u20b91,368",
+    "avgBillValue": "\u20b91,000.97",
+    "sellThru": "62%",
+    "rateOfSale": {
+      "fourWeek": 90,
+      "eightWeek": 86,
+      "twelveWeek": 84
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 625
+      },
+      {
+        "size": "M",
+        "value": 496
+      },
+      {
+        "size": "S",
+        "value": 531
+      },
+      {
+        "size": "XL",
+        "value": 394
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 728178,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 578599,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 298752,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 419434,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-511",
+    "name": "Indore Store",
+    "address": "21 Race Course Road, Indore, Madhya Pradesh 452001",
+    "grade": "B",
+    "revenuePerSqFt": "\u20b91,373",
+    "avgBillValue": "\u20b91,001.07",
+    "sellThru": "62%",
+    "rateOfSale": {
+      "fourWeek": 89,
+      "eightWeek": 83,
+      "twelveWeek": 81
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 622
+      },
+      {
+        "size": "M",
+        "value": 503
+      },
+      {
+        "size": "S",
+        "value": 506
+      },
+      {
+        "size": "XL",
+        "value": 358
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 662272,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 582600,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 335671,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 392558,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-514",
+    "name": "Varanasi Store",
+    "address": "29 Ashok Rajpath, Varanasi, Uttar Pradesh 221001",
+    "grade": "B",
+    "revenuePerSqFt": "\u20b91,516",
+    "avgBillValue": "\u20b91,009.74",
+    "sellThru": "62%",
+    "rateOfSale": {
+      "fourWeek": 98,
+      "eightWeek": 92,
+      "twelveWeek": 90
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 684
+      },
+      {
+        "size": "M",
+        "value": 520
+      },
+      {
+        "size": "S",
+        "value": 577
+      },
+      {
+        "size": "XL",
+        "value": 390
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 785863,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 569574,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 385767,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 418627,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-506",
+    "name": "Hyderabad Store",
+    "address": "9 Banjara Hills Road No. 12, Hyderabad, Telangana 500034",
+    "grade": "B",
+    "revenuePerSqFt": "\u20b91,396",
+    "avgBillValue": "\u20b91,001.21",
+    "sellThru": "62%",
+    "rateOfSale": {
+      "fourWeek": 85,
+      "eightWeek": 82,
+      "twelveWeek": 80
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 581
+      },
+      {
+        "size": "M",
+        "value": 480
+      },
+      {
+        "size": "S",
+        "value": 557
+      },
+      {
+        "size": "XL",
+        "value": 349
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 632130,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 613187,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 320515,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 391526,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-503",
+    "name": "Bengaluru Store",
+    "address": "78 Brigade Road, Bengaluru, Karnataka 560001",
+    "grade": "B",
+    "revenuePerSqFt": "\u20b91,451",
+    "avgBillValue": "\u20b9997.21",
+    "sellThru": "63%",
+    "rateOfSale": {
+      "fourWeek": 88,
+      "eightWeek": 84,
+      "twelveWeek": 81
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 606
+      },
+      {
+        "size": "M",
+        "value": 524
+      },
+      {
+        "size": "S",
+        "value": 531
+      },
+      {
+        "size": "XL",
+        "value": 388
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 676714,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 570596,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 282073,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 490957,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-504",
+    "name": "Kolkata Store",
+    "address": "22 Park Street, Kolkata, West Bengal 700016",
+    "grade": "B",
+    "revenuePerSqFt": "\u20b91,538",
+    "avgBillValue": "\u20b9991.87",
+    "sellThru": "62%",
+    "rateOfSale": {
+      "fourWeek": 87,
+      "eightWeek": 86,
+      "twelveWeek": 83
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 615
+      },
+      {
+        "size": "M",
+        "value": 531
+      },
+      {
+        "size": "S",
+        "value": 581
+      },
+      {
+        "size": "XL",
+        "value": 356
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 716889,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 606234,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 310188,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 428776,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-519",
+    "name": "Visakhapatnam Store",
+    "address": "14 Panjagutta, Visakhapatnam, Andhra Pradesh 530001",
+    "grade": "B",
+    "revenuePerSqFt": "\u20b91,429",
+    "avgBillValue": "\u20b91,012.7",
+    "sellThru": "62%",
+    "rateOfSale": {
+      "fourWeek": 86,
+      "eightWeek": 80,
+      "twelveWeek": 77
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 579
+      },
+      {
+        "size": "M",
+        "value": 485
+      },
+      {
+        "size": "S",
+        "value": 484
+      },
+      {
+        "size": "XL",
+        "value": 365
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 672317,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 514420,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 292046,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 424089,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-508",
+    "name": "Pune Store",
+    "address": "34 M.G. Road, Pune, Maharashtra 411001",
+    "grade": "B",
+    "revenuePerSqFt": "\u20b91,602",
+    "avgBillValue": "\u20b91,014.61",
+    "sellThru": "62%",
+    "rateOfSale": {
+      "fourWeek": 93,
+      "eightWeek": 87,
+      "twelveWeek": 84
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 673
+      },
+      {
+        "size": "M",
+        "value": 511
+      },
+      {
+        "size": "S",
+        "value": 510
+      },
+      {
+        "size": "XL",
+        "value": 374
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 710649,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 541102,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 338229,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 471698,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-502",
+    "name": "Mumbai Store",
+    "address": "45 Linking Road, Bandra West, Mumbai, Maharashtra 400050",
+    "grade": "C",
+    "revenuePerSqFt": "\u20b91,465",
+    "avgBillValue": "\u20b91,009.68",
+    "sellThru": "46%",
+    "rateOfSale": {
+      "fourWeek": 82,
+      "eightWeek": 81,
+      "twelveWeek": 80
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 448
+      },
+      {
+        "size": "M",
+        "value": 489
+      },
+      {
+        "size": "S",
+        "value": 486
+      },
+      {
+        "size": "XL",
+        "value": 401
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 662317,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 521329,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 294988,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 341817,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-523",
+    "name": "Guwahati Store",
+    "address": "13 M.G. Road, Guwahati, Assam 781001",
+    "grade": "C",
+    "revenuePerSqFt": "\u20b91,507",
+    "avgBillValue": "\u20b9991.22",
+    "sellThru": "46%",
+    "rateOfSale": {
+      "fourWeek": 88,
+      "eightWeek": 85,
+      "twelveWeek": 83
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 560
+      },
+      {
+        "size": "M",
+        "value": 520
+      },
+      {
+        "size": "S",
+        "value": 422
+      },
+      {
+        "size": "XL",
+        "value": 347
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 616383,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 562120,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 275447,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 369899,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-513",
+    "name": "Patna Store",
+    "address": "43 Fraser Road, Patna, Bihar 800001",
+    "grade": "C",
+    "revenuePerSqFt": "\u20b91,482",
+    "avgBillValue": "\u20b9989.75",
+    "sellThru": "45%",
+    "rateOfSale": {
+      "fourWeek": 81,
+      "eightWeek": 80,
+      "twelveWeek": 77
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 496
+      },
+      {
+        "size": "M",
+        "value": 473
+      },
+      {
+        "size": "S",
+        "value": 499
+      },
+      {
+        "size": "XL",
+        "value": 317
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 597133,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 557510,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 258270,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 350820,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-512",
+    "name": "Kanpur Store",
+    "address": "17 Civil Lines, Kanpur, Uttar Pradesh 208001",
+    "grade": "C",
+    "revenuePerSqFt": "\u20b91,617",
+    "avgBillValue": "\u20b91,001.98",
+    "sellThru": "46%",
+    "rateOfSale": {
+      "fourWeek": 84,
+      "eightWeek": 82,
+      "twelveWeek": 82
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 529
+      },
+      {
+        "size": "M",
+        "value": 539
+      },
+      {
+        "size": "S",
+        "value": 431
+      },
+      {
+        "size": "XL",
+        "value": 339
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 655580,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 556544,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 269800,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 350699,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-517",
+    "name": "Kochi Store",
+    "address": "24 M.G. Road, Kochi, Kerala 682011",
+    "grade": "C",
+    "revenuePerSqFt": "\u20b91,627",
+    "avgBillValue": "\u20b9998.7",
+    "sellThru": "46%",
+    "rateOfSale": {
+      "fourWeek": 84,
+      "eightWeek": 80,
+      "twelveWeek": 80
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 479
+      },
+      {
+        "size": "M",
+        "value": 527
+      },
+      {
+        "size": "S",
+        "value": 406
+      },
+      {
+        "size": "XL",
+        "value": 339
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 616851,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 454384,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 285208,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 379290,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-522",
+    "name": "Shillong Store",
+    "address": "7 Police Bazaar, Shillong, Meghalaya 793001",
+    "grade": "C",
+    "revenuePerSqFt": "\u20b91,720",
+    "avgBillValue": "\u20b9992.76",
+    "sellThru": "46%",
+    "rateOfSale": {
+      "fourWeek": 85,
+      "eightWeek": 82,
+      "twelveWeek": 80
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 493
+      },
+      {
+        "size": "M",
+        "value": 497
+      },
+      {
+        "size": "S",
+        "value": 485
+      },
+      {
+        "size": "XL",
+        "value": 346
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 631304,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 497833,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 296300,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 373442,
+        "color": "#FFDFBA"
+      }
+    ]
+  },
+  {
+    "id": "STR-518",
+    "name": "Thiruvananthapuram Store",
+    "address": "38 East Fort, Thiruvananthapuram, Kerala 695023",
+    "grade": "C",
+    "revenuePerSqFt": "\u20b91,686",
+    "avgBillValue": "\u20b9985.29",
+    "sellThru": "46%",
+    "rateOfSale": {
+      "fourWeek": 80,
+      "eightWeek": 79,
+      "twelveWeek": 77
+    },
+    "sizeDistribution": [
+      {
+        "size": "L",
+        "value": 503
+      },
+      {
+        "size": "M",
+        "value": 495
+      },
+      {
+        "size": "S",
+        "value": 476
+      },
+      {
+        "size": "XL",
+        "value": 292
+      }
+    ],
+    "departmentSales": [
+      {
+        "name": "Casual",
+        "value": 605776,
+        "color": "#BAE1FF"
+      },
+      {
+        "name": "Mens",
+        "value": 514583,
+        "color": "#FFB3BA"
+      },
+      {
+        "name": "Sports",
+        "value": 276244,
+        "color": "#BAFFC9"
+      },
+      {
+        "name": "Womens",
+        "value": 339471,
+        "color": "#FFDFBA"
+      }
+    ]
+  }
+]
