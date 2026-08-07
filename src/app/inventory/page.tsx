@@ -18,6 +18,7 @@ interface InventoryNeed {
   weekly_ros_12w: number;
   demand_2_weeks: number;
   need: number;
+  warehouse_stock: number;
   weeks_since_launch: number;
   sell_thru: number;
 }
@@ -93,10 +94,11 @@ export default function InventoryPage() {
       "8-Week ROS", 
       "12-Week ROS", 
       "Weeks Since Launch",
-      "2-Week Demand", 
-      "Need"
+      "2-Week Demand",
+      "Need",
+      "Warehouse Stock"
     ];
-    
+
     const rows = sortedItems.map(item => [
       item.store_code,
       item.item_code,
@@ -108,7 +110,8 @@ export default function InventoryPage() {
       item.weekly_ros_12w,
       item.weeks_since_launch,
       item.demand_2_weeks,
-      item.need
+      item.need,
+      item.warehouse_stock
     ]);
     
     const csvContent = [
@@ -230,6 +233,9 @@ export default function InventoryPage() {
                 <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors text-right" onClick={() => handleSort('need')}>
                   <div className="flex items-center justify-end">Need <SortIcon columnKey="need" /></div>
                 </th>
+                <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors text-right" onClick={() => handleSort('warehouse_stock')}>
+                  <div className="flex items-center justify-end">Warehouse Stock <SortIcon columnKey="warehouse_stock" /></div>
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border/40">
@@ -247,11 +253,12 @@ export default function InventoryPage() {
                     <td className="px-6 py-4"><div className="h-4 bg-muted/60 rounded w-16 ml-auto"></div></td>
                     <td className="px-6 py-4"><div className="h-4 bg-muted/60 rounded w-16 ml-auto"></div></td>
                     <td className="px-6 py-4"><div className="h-4 bg-muted/60 rounded w-16 ml-auto"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-muted/60 rounded w-16 ml-auto"></div></td>
                   </tr>
                 ))
               ) : sortedItems.length === 0 ? (
                 <tr>
-                  <td colSpan={11} className="px-6 py-12 text-center text-muted-foreground">
+                  <td colSpan={12} className="px-6 py-12 text-center text-muted-foreground">
                     <Package className="w-12 h-12 mx-auto mb-4 opacity-20" />
                     <p className="font-medium">No inventory data available.</p>
                   </td>
@@ -303,6 +310,9 @@ export default function InventoryPage() {
                           0
                         </span>
                       )}
+                    </td>
+                    <td className="px-6 py-4 text-right font-medium opacity-80">
+                      {item.warehouse_stock.toLocaleString()}
                     </td>
                   </tr>
                 ))

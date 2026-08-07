@@ -13,7 +13,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Zap,
-  Store
+  Store,
+  ArrowLeftRight
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -35,6 +36,12 @@ const navItems = [
     description: "Inventory Management",
     href: "/inventory",
     icon: Box,
+  },
+  {
+    name: "Store Transfer",
+    description: "Inter-Store Replenishment",
+    href: "/store-transfer",
+    icon: ArrowLeftRight,
   },
   {
     name: "Pricing & Promo",
