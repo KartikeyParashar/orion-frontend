@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/button"
 
 const navItems = [
   {
-    name: "Dashboard",
+    name: "Intelligence Hub",
     href: "/",
     icon: LayoutDashboard,
   },
@@ -32,13 +32,13 @@ const navItems = [
     icon: Store,
   },
   {
-    name: "Inventory Tool",
+    name: "Replenishment Engine",
     description: "Inventory Management",
     href: "/inventory",
     icon: Box,
   },
   {
-    name: "Store Transfer",
+    name: "Node Rebalancing",
     description: "Inter-Store Replenishment",
     href: "/store-transfer",
     icon: ArrowLeftRight,

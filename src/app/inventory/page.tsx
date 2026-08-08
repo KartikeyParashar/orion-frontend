@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Package, Download, AlertTriangle, ArrowUpDown, ChevronUp, ChevronDown, Clock, RefreshCw } from "lucide-react"
+import { Package, Download, AlertTriangle, ArrowUpDown, ChevronUp, ChevronDown, Clock, RefreshCw, CheckCircle2 } from "lucide-react"
 import { salesService } from "@/services/api"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
@@ -27,6 +27,7 @@ export default function InventoryPage() {
   const [items, setItems] = React.useState<InventoryNeed[]>([])
   const [loading, setLoading] = React.useState(true)
   const [isSyncing, setIsSyncing] = React.useState(false)
+  const [showReloadNotice, setShowReloadNotice] = React.useState(false)
   const [sortConfig, setSortConfig] = React.useState<{key: keyof InventoryNeed, direction: 'asc'|'desc'} | null>(null)
 
   React.useEffect(() => {
@@ -49,6 +50,8 @@ export default function InventoryPage() {
     try {
       setIsSyncing(true)
       await salesService.syncData()
+      setShowReloadNotice(true)
+      setTimeout(() => setShowReloadNotice(false), 5000)
     } catch (error) {
       console.error("Failed to sync data from Excel:", error)
     } finally {
@@ -168,18 +171,25 @@ export default function InventoryPage() {
              </CardContent>
            </Card>
 
-           <Button 
-            onClick={handleRefresh} 
-            disabled={loading || isSyncing}
-            variant="outline"
-            className="h-[72px] px-6 rounded-2xl border-primary/20 hover:bg-primary/5 shadow-sm transition-all flex items-center gap-3 cursor-pointer"
-           >
-             <RefreshCw className={`w-5 h-5 ${isSyncing || loading ? 'animate-spin' : ''}`} />
-             <div className="flex flex-col items-start">
-               <span className="font-bold text-sm">{isSyncing ? "Syncing..." : "Refresh"}</span>
-               <span className="text-[10px] opacity-80 uppercase tracking-widest">{isSyncing ? "2-3 mins wait" : "Latest Data"}</span>
-             </div>
-           </Button>
+           <div className="flex flex-col items-center gap-1.5">
+             <Button
+              onClick={handleRefresh}
+              disabled={loading || isSyncing}
+              variant="outline"
+              className="h-[72px] px-6 rounded-2xl border-primary/20 hover:bg-primary/5 shadow-sm transition-all flex items-center gap-3 cursor-pointer"
+             >
+               <RefreshCw className={`w-5 h-5 ${isSyncing || loading ? 'animate-spin' : ''}`} />
+               <div className="flex flex-col items-start">
+                 <span className="font-bold text-sm">{isSyncing ? "Syncing..." : "Refresh"}</span>
+                 <span className="text-[10px] opacity-80 uppercase tracking-widest">{isSyncing ? "2-3 mins wait" : "Latest Data"}</span>
+               </div>
+             </Button>
+             {showReloadNotice && (
+               <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-500">
+                 <CheckCircle2 className="w-3 h-3" /> Entire Data Is Reloaded
+               </span>
+             )}
+           </div>
            
            <Button 
             onClick={downloadCSV} 

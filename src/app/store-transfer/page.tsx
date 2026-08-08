@@ -13,9 +13,13 @@ interface Transfer {
   from_store: string;
   from_grade: string;
   from_state: string;
+  from_address: string;
+  from_soh_before: number;
   to_store: string;
   to_grade: string;
   to_state: string;
+  to_address: string;
+  to_soh_before: number;
   qty: number;
 }
 
@@ -83,12 +87,27 @@ export default function StoreTransferPage() {
   const downloadCSV = () => {
     if (transfers.length === 0) return;
 
-    const headers = ["Item Code", "Department", "From Store", "From Grade", "State", "To Store", "To Grade", "Qty"];
+    const headers = [
+      "Item Code", "Department",
+      "From Store", "From Address", "From Grade", "From SOH (Before)",
+      "To Store", "To Address", "To Grade", "To SOH (Before)",
+      "Qty"
+    ];
     const rows = sortedTransfers.map(t => [
-      t.item_code, t.department, t.from_store, t.from_grade, t.from_state, t.to_store, t.to_grade, t.qty
+      t.item_code, t.department,
+      t.from_store, t.from_address, t.from_grade, t.from_soh_before,
+      t.to_store, t.to_address, t.to_grade, t.to_soh_before,
+      t.qty
     ]);
 
-    const csvContent = [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+    const escapeCsv = (value: string | number) => {
+      const str = String(value);
+      return /[",\n]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str;
+    };
+    const csvContent = [
+      headers.map(escapeCsv).join(","),
+      ...rows.map(row => row.map(escapeCsv).join(","))
+    ].join("\n");
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -194,13 +213,18 @@ export default function StoreTransferPage() {
                 <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors" onClick={() => handleSort('from_store')}>
                   <div className="flex items-center">From Store <SortIcon columnKey="from_store" /></div>
                 </th>
+                <th className="px-6 py-5">From Address</th>
                 <th className="px-6 py-5">From Grade</th>
+                <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors text-right" onClick={() => handleSort('from_soh_before')}>
+                  <div className="flex items-center justify-end">From SOH (Before) <SortIcon columnKey="from_soh_before" /></div>
+                </th>
                 <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors" onClick={() => handleSort('to_store')}>
                   <div className="flex items-center">To Store <SortIcon columnKey="to_store" /></div>
                 </th>
+                <th className="px-6 py-5">To Address</th>
                 <th className="px-6 py-5">To Grade</th>
-                <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors" onClick={() => handleSort('from_state')}>
-                  <div className="flex items-center">State <SortIcon columnKey="from_state" /></div>
+                <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors text-right" onClick={() => handleSort('to_soh_before')}>
+                  <div className="flex items-center justify-end">To SOH (Before) <SortIcon columnKey="to_soh_before" /></div>
                 </th>
                 <th className="px-6 py-5 cursor-pointer group hover:bg-muted/100 transition-colors text-right" onClick={() => handleSort('qty')}>
                   <div className="flex items-center justify-end">Qty <SortIcon columnKey="qty" /></div>
@@ -211,14 +235,14 @@ export default function StoreTransferPage() {
               {loading ? (
                 Array.from({ length: 6 }).map((_, i) => (
                   <tr key={i} className="animate-pulse">
-                    {Array.from({ length: 8 }).map((_, j) => (
+                    {Array.from({ length: 11 }).map((_, j) => (
                       <td key={j} className="px-6 py-4"><div className="h-4 bg-muted/60 rounded w-20"></div></td>
                     ))}
                   </tr>
                 ))
               ) : sortedTransfers.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="px-6 py-12 text-center text-muted-foreground">
+                  <td colSpan={11} className="px-6 py-12 text-center text-muted-foreground">
                     <ArrowLeftRight className="w-12 h-12 mx-auto mb-4 opacity-20" />
                     <p className="font-medium">No transfers needed right now.</p>
                   </td>
@@ -233,18 +257,25 @@ export default function StoreTransferPage() {
                       </Badge>
                     </td>
                     <td className="px-6 py-4 font-bold text-foreground/80">{t.from_store}</td>
+                    <td className="px-6 py-4 text-muted-foreground max-w-[220px] truncate" title={t.from_address}>{t.from_address}</td>
                     <td className="px-6 py-4">
                       <Badge variant="outline" className={`text-[10px] font-bold ${gradeBadgeClass(t.from_grade)}`}>
                         {t.from_grade}
                       </Badge>
                     </td>
+                    <td className="px-6 py-4 text-right font-medium opacity-80">
+                      {Math.round(t.from_soh_before).toLocaleString()}
+                    </td>
                     <td className="px-6 py-4 font-bold text-foreground/80">{t.to_store}</td>
+                    <td className="px-6 py-4 text-muted-foreground max-w-[220px] truncate" title={t.to_address}>{t.to_address}</td>
                     <td className="px-6 py-4">
                       <Badge variant="outline" className={`text-[10px] font-bold ${gradeBadgeClass(t.to_grade)}`}>
                         {t.to_grade}
                       </Badge>
                     </td>
-                    <td className="px-6 py-4 text-muted-foreground">{t.from_state}</td>
+                    <td className="px-6 py-4 text-right font-medium opacity-80">
+                      {Math.round(t.to_soh_before).toLocaleString()}
+                    </td>
                     <td className="px-6 py-4 text-right font-bold text-primary">
                       {Math.ceil(t.qty).toLocaleString()}
                     </td>

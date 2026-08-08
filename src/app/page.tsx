@@ -130,6 +130,7 @@ export default function DashboardPage() {
   const [metrics, setMetrics] = React.useState<any>(null)
   const [loading, setLoading] = React.useState(true)
   const [isSyncing, setIsSyncing] = React.useState(false)
+  const [showReloadNotice, setShowReloadNotice] = React.useState(false)
   const [filters, setFilters] = React.useState({
     category: '',
     store: '',
@@ -179,6 +180,8 @@ export default function DashboardPage() {
     try {
       setIsSyncing(true)
       await salesService.syncData()
+      setShowReloadNotice(true)
+      setTimeout(() => setShowReloadNotice(false), 5000)
     } catch (error) {
       console.error("Failed to sync data from Excel:", error)
     } finally {
@@ -266,21 +269,28 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <Button 
-            onClick={handleRefresh} 
-            disabled={loading || isSyncing}
-            variant="outline"
-            className="h-11 px-4 rounded-xl border-primary/20 hover:bg-primary/5 flex items-center gap-2 cursor-pointer ml-auto"
-          >
-            {loading || isSyncing ? (
-              <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-            ) : (
-              <RefreshCw className="w-4 h-4 text-primary" />
+          <div className="flex flex-col items-end gap-1.5 ml-auto">
+            <Button
+              onClick={handleRefresh}
+              disabled={loading || isSyncing}
+              variant="outline"
+              className="h-11 px-4 rounded-xl border-primary/20 hover:bg-primary/5 flex items-center gap-2 cursor-pointer"
+            >
+              {loading || isSyncing ? (
+                <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <RefreshCw className="w-4 h-4 text-primary" />
+              )}
+              <span className="font-bold text-sm text-primary">
+                {isSyncing ? "SYNCING EXCEL (2-3 MINS)..." : loading ? "UPDATING..." : "REFRESH"}
+              </span>
+            </Button>
+            {showReloadNotice && (
+              <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-500">
+                <CheckCircle2 className="w-3 h-3" /> Entire Data Is Reloaded
+              </span>
             )}
-            <span className="font-bold text-sm text-primary">
-              {isSyncing ? "SYNCING EXCEL (2-3 MINS)..." : loading ? "UPDATING..." : "REFRESH"}
-            </span>
-          </Button>
+          </div>
         </div>
       </div>
 
